@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 //import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http_parser/http_parser.dart';
@@ -191,16 +192,15 @@ class AuthenticationRemoteDataSourceImpl
   @override
   Future<Map<String,dynamic>> facebookLogin() async {
     try {
-      //        FacebookAuth.instance.logOut();
-      // final  result = await FacebookAuth.instance
-      //     .login(permissions: ['email', 'public_profile',]);
-      // if (result.status == LoginStatus.success) {
-      //   final userData = await FacebookAuth.instance.getUserData(fields: "name,email,picture.width(200)");
-      //   return userData;
-      // } else {
-      //   throw LoginException("Login failure");
-      // }
-      return {};
+             FacebookAuth.instance.logOut();
+      final  result = await FacebookAuth.instance
+          .login(permissions: ['email', 'public_profile',]);
+      if (result.status == LoginStatus.success) {
+        final userData = await FacebookAuth.instance.getUserData(fields: "name,email,picture.width(200)");
+        return userData;
+      } else {
+        throw LoginException("Login failure");
+      }
     } on LocalStorageException {
       rethrow;
     }

@@ -12,6 +12,7 @@ import 'package:indar_deco/core/styles/colors.dart';
 import 'package:indar_deco/core/utils/string_const.dart';
 import 'package:indar_deco/domain/entities/user.dart';
 import 'package:indar_deco/domain/usecases/authentication_usecases/create_account_usecase.dart';
+import 'package:indar_deco/domain/usecases/authentication_usecases/facebook_login_usecase.dart';
 import 'package:indar_deco/domain/usecases/authentication_usecases/get_user_usecase.dart';
 import 'package:indar_deco/domain/usecases/authentication_usecases/google_login_usecase.dart';
 import 'package:indar_deco/domain/usecases/authentication_usecases/login_usecase.dart';
@@ -24,11 +25,13 @@ import 'package:indar_deco/domain/usecases/authentication_usecases/verify_otp_us
 import 'package:indar_deco/domain/usecases/cart_usecases/create_cart_usecase.dart';
 import 'package:indar_deco/domain/usecases/wishlist_usecases/create_wishlist_usecase.dart';
 import 'package:indar_deco/presentation/controllers/cart_controller.dart';
+import 'package:indar_deco/presentation/controllers/category_controller.dart';
 import 'package:indar_deco/presentation/controllers/wishlist_controller.dart';
 import 'package:indar_deco/presentation/ui/screens/authentication/otp_screen.dart';
 import 'package:indar_deco/presentation/ui/screens/authentication/reset_password_screen.dart';
 import 'package:indar_deco/presentation/ui/screens/authentication/sign_in_screen.dart';
 import 'package:indar_deco/presentation/ui/screens/main/main_screen.dart';
+import 'package:indar_deco/presentation/ui/widgets/category/category_item.dart';
 import '../../di.dart';
 import '../../domain/entities/token.dart';
 import '../../domain/usecases/authentication_usecases/clear_user_image.dart';
@@ -137,6 +140,7 @@ class AuthenticationController extends GetxController{
                             await getCurrentUser(r.userId).then((value)async {
                                   final WishListController wishListController = Get.find();
                                   final CartController cartController = Get.find();
+                                 // final CategoryController categorControlller = Get.find();
                                   final AuthenticationController authController = Get.find();
                                   await wishListController.getUserWishlist(authController.currentUser.id!);
                                   await cartController.getUserCart(authController.currentUser.id!);
@@ -312,24 +316,36 @@ String message='error';
     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_)=>const LoginScreen()));
   }
 
-  // Future<void> facebookLogin(BuildContext context)async{
-  //                  isLoading = true;
+  Future<void> facebookLogin(BuildContext context)async{
+                   isLoading = true;
     
-  //   final res =await FacebookLoginUsecase(sl())();
-  //   res.fold((l) => null, (r)async {
-  //         await CreateAccountUsecase(sl()).call(role: 'user',oauth:'F',email: r['id'].toString(), password: '0987654321',address: null,phone: '',firstName: r['name'].split(' ')[0].toString(),lastName: r['name'].split(' ')[1].toString(),image: r['picture']['data']['url'],birthdate: null,gender: null);
+    final res =await FacebookLoginUsecase(sl())();
+    res.fold((l) => null, (r)async {
+         final user=  await CreateAccountUsecase(sl()).call(oauth:'F',email: r['id'].toString(), password: '0987654321',address: null,phone: '',firstName: r['name'].split(' ')[0].toString(),lastName: r['name'].split(' ')[1].toString(),image: r['picture']['data']['url'],birthdate: null,gender: null);
+          user.fold((l) => null, (ur)async {
+          await CreateWishListUsecase(sl())(userId:ur);
+                           await CreateCartUsecase(sl())(userId: ur);
+        });
+        TextEditingController email = TextEditingController(text:r['id']);
+                TextEditingController password = TextEditingController(text:'0987654321' );
 
-  //        final lg = await LoginUsecase(sl())(email: r['id'], password: '0987654321');
-  //        lg.fold((l) => null, (r) async{
-  //                                     token = r;
-  //                                     await getCurrentUser(token.userId);
-  //          return Navigator.of(context).pushReplacement(MaterialPageRoute(builder:(_)=>const MainScreen()));
+await login(email,password , context);
+        //  final lg = await LoginUsecase(sl())(email: r['id'], password: '0987654321');
+        //  lg.fold((l) => null, (r) async{
+        //                               token = r;
+        //                               await getCurrentUser(token.userId);
+        //   final WishListController wishListController = Get.find();
+        //                           final CartController cartController = Get.find();
+        //                           final AuthenticationController authController = Get.find();
+        //                           await wishListController.getUserWishlist(authController.currentUser.id!);
+        //                           await cartController.getUserCart(authController.currentUser.id!);
+        //    return Navigator.of(context).pushReplacement(MaterialPageRoute(builder:(_)=>const MainScreen()));
            
-  //        });
-  //   });
-  //   isLoading = false;
-  //   update();
-  // }
+        //  });
+    });
+    isLoading = false;
+    update();
+  }
 
   Future<void> googleLogin(BuildContext context)async{
                    isLoading = true;
@@ -342,19 +358,23 @@ String message='error';
                            await CreateCartUsecase(sl())(userId: ur);
         });
              
-                           
-         final lg = await LoginUsecase(sl())(email: r['email'], password: '0987654321');
-         lg.fold((l) => null, (r) async{
-                                      token = r;
-                                      await getCurrentUser(token.userId);
-                                        final WishListController wishListController = Get.find();
-                                  final CartController cartController = Get.find();
-                                  final AuthenticationController authController = Get.find();
-                                  await wishListController.getUserWishlist(authController.currentUser.id!);
-                                  await cartController.getUserCart(authController.currentUser.id!);
-           return Navigator.of(context).pushReplacement(MaterialPageRoute(builder:(_)=>const MainScreen()));
+                 TextEditingController email = TextEditingController(text:r['email']);
+                TextEditingController password = TextEditingController(text:'0987654321' );
+
+await login(email,password , context);               
+        //  final lg = await LoginUsecase(sl())(email: r['email'], password: '0987654321');
+        //  lg.fold((l) => null, (r) async{
+        //                               token = r;
+        //                               await getCurrentUser(token.userId);
+        //                                 final WishListController wishListController = Get.find();
+        //                           final CartController cartController = Get.find();
+        //                           final AuthenticationController authController = Get.find();
+        //                           await wishListController.getUserWishlist(authController.currentUser.id!);
+        //                           await cartController.getUserCart(authController.currentUser.id!);
+
+        //    return Navigator.of(context).pushReplacement(MaterialPageRoute(builder:(_)=>const MainScreen()));
            
-         });
+        //  });
     });
     isLoading = false;
     update();

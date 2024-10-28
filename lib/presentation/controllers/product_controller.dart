@@ -12,6 +12,7 @@ import 'package:indar_deco/domain/usecases/product_usecases/get_products_by_subc
 import 'package:indar_deco/domain/usecases/product_usecases/get_sorted_products_usecase.dart';
 import 'package:indar_deco/presentation/controllers/promotion_controller.dart';
 import 'package:indar_deco/presentation/controllers/supplier_controller.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProductController extends GetxController {
   List<Product> allProducts=[];
@@ -116,6 +117,32 @@ double getPrice(Product product){
   return  promoController.promotionsList.firstWhere((element) => element.product==product.id).newPrice;
   }
   return product.price;
+}
+
+String getProductDimensions(LocalDimensions dimensions,BuildContext context){
+  String res='';
+  String res2='';
+  if(dimensions.length!=null){
+    res+='${dimensions.length}${AppLocalizations.of(context)!.cm} x ';
+    res2+='L x ';
+  }  if(dimensions.width!=null){
+    res+='${dimensions.width}${AppLocalizations.of(context)!.cm} x ';
+    res2+='W x ';
+  }
+   if(dimensions.height!=null){
+    res+='${dimensions.height}${AppLocalizations.of(context)!.cm} x ';
+    res2+='H x ';
+  } if(dimensions.radius!=null){
+    res+='${dimensions.radius}${AppLocalizations.of(context)!.cm}';
+    res2+='R';
+  }
+  if(res[res.length-1]==' '){
+    res = res.substring(0, res.length - 3);
+     res2= res2.substring(0, res2.length - 3);
+
+  }
+  res2='($res2)';
+  return '$res $res2';
 }
 
 }

@@ -142,7 +142,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           
                            SocialSecondaryButton(text: AppLocalizations.of(context)!.continue_with_facebook, onClick: () async{
-                                //    await controller.facebookLogin(context);
+                                  await controller.facebookLogin(context);
                                   }, asset: APPSVG.facebookIcon),
                                   const  SizedBox(height: 15,),
                                  SocialSecondaryButton(text: AppLocalizations.of(context)!.continue_with_google, onClick: ()async {

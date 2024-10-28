@@ -57,6 +57,7 @@ dependencies:
   ar_flutter_plugin: 
     path: C:\plugins\ar_flutter_plugin-main\ar_flutter_plugin-main
   image_gallery_saver: ^2.0.3
+  flutter_facebook_auth: ^7.0.1
 
 dev_dependencies:
   flutter_test:

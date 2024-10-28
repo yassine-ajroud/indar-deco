@@ -13,6 +13,8 @@ class CategoryController extends GetxController{
   List<SubCategory> subCategoriesList=[];
    List<Category> filtredCategoriesList=[];
    List<SubCategory> filtredsubCategoriesList=[];
+    late  Category selectedCategory;
+
    TextEditingController searchController = TextEditingController(); 
 
   Future<List<Category>> getAllCategories()async{ 
@@ -64,6 +66,12 @@ String getsubCategoryName(String subCategoryID){
   return subCategoriesList.firstWhere((element) => element.id==subCategoryID).title;
 }
 
+
+  void selectCategory(Category category){
+    selectedCategory = category;
+    update([ControllerID.SELECT_CATEGORY]);
+  }
+  
   @override
   void onInit() async{
     super.onInit();

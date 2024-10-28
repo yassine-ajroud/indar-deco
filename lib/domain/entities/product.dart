@@ -28,13 +28,14 @@ class Product extends Equatable{
 
 
 class LocalDimensions extends Equatable{
-  final double? height;
+  final double? length;
   final double? width;
-  final double? thickness;
+  final double? height;
+  final double? radius;
 
- const LocalDimensions({ this.height, this.width,this.thickness});
+ const LocalDimensions({ this.length, this.width,this.height, this.radius});
  
   @override
-  List<Object?> get props => [height,width,thickness];
+  List<Object?> get props => [height,width,length,radius];
 }
 

@@ -19,6 +19,7 @@ import 'package:indar_deco/presentation/controllers/rating_controller.dart';
 import 'package:indar_deco/presentation/controllers/review_controller.dart';
 import 'package:indar_deco/presentation/controllers/supplier_controller.dart';
 import 'package:indar_deco/presentation/ui/screens/AR/ar_objects_screen.dart';
+import 'package:indar_deco/presentation/ui/screens/supplier/supplier_screen.dart';
 import 'package:indar_deco/presentation/ui/widgets/app_bar/product_screen_app_bar.dart';
 import 'package:indar_deco/presentation/ui/widgets/buttons/primary_button.dart';
 import 'package:indar_deco/presentation/ui/widgets/buttons/quantity_button.dart';
@@ -176,10 +177,15 @@ class ProductScreen extends StatelessWidget {
                                 children: [
                                   Flexible(
                                     flex: 1,
-                                    child: Text(
-                                      supplierController.productSupplier(
-                                          snapshot.data!.provider),
-                                      style: AppTextStyle.supplierNameTextStyle,
+                                    child: GestureDetector(
+                                      onTap:() {
+                                        supplierController.selectSupplier( snapshot.data!.provider);
+                                        Navigator.of(context).push(MaterialPageRoute(builder: (_)=>const SupplierScreen()));},
+                                      child: Text(
+                                        supplierController.productSupplier(
+                                            snapshot.data!.provider),
+                                        style: AppTextStyle.supplierNameTextStyle,
+                                      ),
                                     ),
                                   ),
                                   pc.currentProduct.promotion
@@ -293,7 +299,7 @@ class ProductScreen extends StatelessWidget {
                                         AppTextStyle.descriptionBoldTextStyle),
                                 TextSpan(
                                     text:
-                                        '${snapshot.data!.dimensions.height}cm x ${snapshot.data!.dimensions.width}cm (HxL)',
+                                        pc.getProductDimensions(snapshot.data!.dimensions,context),
                                     style: AppTextStyle.descriptionTextStyle)
                               ])),
                               const SizedBox(

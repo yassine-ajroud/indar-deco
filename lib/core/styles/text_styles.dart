@@ -35,6 +35,7 @@ class AppTextStyle {
   static TextStyle subTitleTextStyle = TextStyle(fontWeight: FontWeight.bold, fontSize: 15.sp, color: AppColors.black,fontFamily: 'Alata');
  static TextStyle whiteTextStyle = TextStyle(fontWeight: FontWeight.bold, fontSize: 15.sp, color: AppColors.white,fontFamily: 'Alata');
  static TextStyle descriptionBoldTextStyle = TextStyle(fontWeight: FontWeight.w700, fontSize: 14.sp, color: AppColors.darkGrey2,fontFamily: 'Alata',);
+ static TextStyle smallWhiteTextStyle = TextStyle(fontWeight: FontWeight.w400, fontSize: 10.sp, color: AppColors.white,fontFamily: 'Alata');
 
 
   // static TextStyle titleTextStyle = TextStyle(fontWeight: FontWeight.w600, fontSize: 20.sp, color: AppColors.black,fontFamily: 'Montserrat');

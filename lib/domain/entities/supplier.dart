@@ -6,6 +6,7 @@ class Supplier extends Equatable {
   final String phone;
   final String userID;
   final String id;
+  final String email;
   final String image;
   final String rib;
   final String marque;
@@ -15,6 +16,7 @@ class Supplier extends Equatable {
     required this.id,
     required this.name,
     required this.address,
+    required this.email,
     required this.phone,
     required this.userID,
     required this.image,
@@ -33,6 +35,7 @@ class Supplier extends Equatable {
         image,
         webSite,
         marque,
-        rib
+        rib,
+        email
       ];
 }

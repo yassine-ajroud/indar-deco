@@ -33,11 +33,10 @@ class SplashScreen extends StatefulWidget {
     Get.put(MainScreenController());
     Get.put(SupplierController());
     Get.put(ProductController());
-    Get.put(PromotionController());
-
+ Get.put(CategoryController()) ;
+     Get.put(PromotionController());
     final  SettingsController settingsController = Get.find() ;
     final AuthenticationController authController = Get.find();
-
     final WishListController wishListController = Get.find();
     final CartController cartController = Get.find();
 
@@ -58,8 +57,7 @@ class SplashScreen extends StatefulWidget {
        await wishListController.getUserWishlist(authController.currentUser.id!);
         await cartController.getUserCart(authController.currentUser.id!);
         
- Get.put(CategoryController()) ;
-     Get.put(PromotionController());
+
 
 
       });

@@ -197,21 +197,15 @@ late final TextEditingController searchController;
                                       ),
                                 delegate: SliverChildBuilderDelegate(
                                   (BuildContext context, int index) {
-                                    return InkWell(
-                                      onTap:() async{
-                                      //       final ProductController productController=Get.find();
-                                      //   final prods=await productController.getProductsByCategory( controller.filtredCategoriesList[index].id);
-                                      // Navigator.of(context).push(MaterialPageRoute(builder: (_)=>FilteredProductScreen(products:prods)));
-                                      },
-                                      child: ProductGridItem(image:productController.allProducts[index].image,
-                                        supplier: supplierController.productSupplier(productController.allProducts[index].provider),
-                                        name:productController.allProducts[index].name ,
-                                        price: productController.allProducts[index].price,
-                                        promo:productController.allProducts[index].promotion ,
-                                        id:productController.allProducts[index].id! ,
-                                        rating: productController.allProducts[index].rate,
-                                        reference: productController.allProducts[index].reference,
-                                        ));
+                                    return ProductGridItem(image:productController.allProducts[index].image,
+                                      supplier: supplierController.productSupplier(productController.allProducts[index].provider),
+                                      name:productController.allProducts[index].name ,
+                                      price: productController.allProducts[index].price,
+                                      promo:productController.allProducts[index].promotion ,
+                                      id:productController.allProducts[index].id! ,
+                                      rating: productController.allProducts[index].rate,
+                                      reference: productController.allProducts[index].reference,
+                                      );
                                   },
                                   childCount:productController.allProducts.length
                             
@@ -255,21 +249,15 @@ late final TextEditingController searchController;
                                       ),
                                 delegate: SliverChildBuilderDelegate(
                                   (BuildContext context, int index) {
-                                    return InkWell(
-                                      onTap:() async{
-                                      //       final ProductController productController=Get.find();
-                                      //   final prods=await productController.getProductsByCategory( controller.filtredCategoriesList[index].id);
-                                      // Navigator.of(context).push(MaterialPageRoute(builder: (_)=>FilteredProductScreen(products:prods)));
-                                      },
-                                      child: ProductGridItem(image:productController.filtredProducts[index].image,
-                                        supplier: supplierController.productSupplier(productController.filtredProducts[index].provider),
-                                        name:productController.filtredProducts[index].name ,
-                                        price: productController.filtredProducts[index].price,
-                                        promo:productController.filtredProducts[index].promotion ,
-                                        id:productController.filtredProducts[index].id! ,
-                                        rating: productController.filtredProducts[index].rate,
-                                        reference: productController.filtredProducts[index].reference,
-                                        ));
+                                    return ProductGridItem(image:productController.filtredProducts[index].image,
+                                      supplier: supplierController.productSupplier(productController.filtredProducts[index].provider),
+                                      name:productController.filtredProducts[index].name ,
+                                      price: productController.filtredProducts[index].price,
+                                      promo:productController.filtredProducts[index].promotion ,
+                                      id:productController.filtredProducts[index].id! ,
+                                      rating: productController.filtredProducts[index].rate,
+                                      reference: productController.filtredProducts[index].reference,
+                                      );
                                   },
                                   childCount:productController.filtredProducts.length
                             

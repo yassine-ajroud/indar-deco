@@ -26,4 +26,13 @@ class Adaptivity{
     return const EdgeInsets.only(right:10.0,left: 25);
     }
   }
+
+   static EdgeInsets paddingLeft(String language,double padding){
+    if(language=='ar'){
+    return  EdgeInsets.only(right: padding);
+    }else{
+    return  EdgeInsets.only(left: padding);
+    }
+  }
+
 }
