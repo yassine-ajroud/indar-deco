@@ -1,3 +1,4 @@
+
 import 'package:dio/dio.dart';
 import 'package:indar_deco/data/data_sources/local_data_source/authentication_local_data_source.dart';
 import 'package:indar_deco/data/data_sources/local_data_source/settings_local_data_source.dart';
@@ -59,6 +60,7 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
   @override
   Future<CartModel> getCart({required String userId}) async{
     try {
+      await verifyToken();
       final response = await dio.get(
         ApiConst.getCart,
         data: {"userId":userId},
@@ -84,7 +86,7 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
   @override
   Future<void> updateCart({required CartModel cart}) async{
    try {
-    print('my cart ${cart.toJson()}');
+          await verifyToken();
        await dio.put(
         ApiConst.updateCart,
         data: {"id": cart.id,
@@ -104,6 +106,8 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
   @override
   Future<void> deleteCart({required String cartId})async {
      try {
+            await verifyToken();
+
        await dio.delete(
         ApiConst.deleteCart,
         data: {"id": cartId},

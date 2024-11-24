@@ -21,7 +21,7 @@ class Sales extends Equatable{
 
 class SaleStatus extends Equatable{
   final int index;
-  final DateTime? date;
+  final String? date;
   final int status;
 
   const SaleStatus({required this.index, required this.date, required this.status});

@@ -4,7 +4,7 @@ class Reclamation extends Equatable {
   final String? id;
   final String user;
   final String address;
-  final List<String> sales;
+  final List<dynamic> sales;
   final String reference;
   final double price;
   final DateTime? date;

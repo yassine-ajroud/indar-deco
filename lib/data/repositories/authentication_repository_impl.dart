@@ -31,7 +31,7 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   }
 
   @override
-  Future<Either<Failure, String>> createAccount({ required String? address,required email,required firstName,required lastName,required password,required phone,required String? image,required String? oauth,required String? gender,required String? birthDate}) async{
+  Future<Either<Failure, String>> createAccount({required String? address,required String? email,required firstName,required lastName,required password,required String? phone,required String image,required String? oauth,required String? birthDate, required String? gender, required String? recoveryEmail}) async{
      try {
       final res = await authRemoteDataSource.createAccount(firstName: firstName,
           lastName: lastName,
@@ -40,7 +40,7 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
           birthDate: birthDate,
           gender: gender,
           phone: phone,
-          image:image??'',
+          image:'',
           oauth:oauth,
           password: password);
       return Right(res);
@@ -64,9 +64,9 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   }
 
   @override
-  Future<Either<Failure, Unit>> forgetPassword(String email)async {
+  Future<Either<Failure, Unit>> forgetPassword({required String email,required String destination})async {
            try {
-      await authRemoteDataSource.forgetPassword(email);
+      await authRemoteDataSource.forgetPassword(email:email,destination: destination);
       return const Right(unit);
     }on DataNotFoundException catch(e){
     return Left(DataNotFoundFailure(e.message));} 
@@ -196,6 +196,16 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
            try {
       await authRemoteDataSource.updateUserImage(userId,file);
       return const Right(unit);
+    } on ServerException {
+      return Left(ServerFailure());
+    }
+  }
+  
+  @override
+  Future<Either<Failure, String?>> getRecoveryEmail({required String email}) async{
+             try {
+      final res =await authRemoteDataSource.getRecoveryEmail(email);
+      return  Right(res);
     } on ServerException {
       return Left(ServerFailure());
     }

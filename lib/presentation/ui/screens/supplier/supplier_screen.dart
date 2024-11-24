@@ -39,13 +39,11 @@ class SupplierScreen extends StatelessWidget {
                                 scrollDirection: Axis.horizontal,
                                 itemCount: controller.tousCategories.length,
                                 itemBuilder: (context, index) {
-                                  print("all cat: ${controller.tousCategories}");
                                   return Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: 3.0),
                                     child: GestureDetector(
                                       onTap:(){
                                        controller.selectCategory(snapshot.data![index]);
-                                        print(snapshot.data![index]);
                                       },
                                       child: Container(
                                         decoration:snapshot.data![index]==controller.selectedCategory? BoxDecoration(

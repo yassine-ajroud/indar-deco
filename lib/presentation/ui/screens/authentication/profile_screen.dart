@@ -7,6 +7,7 @@ import 'package:indar_deco/core/utils/svg.dart';
 import 'package:indar_deco/presentation/controllers/authentication_controller.dart';
 import 'package:indar_deco/presentation/ui/screens/authentication/update_password_screen.dart';
 import 'package:indar_deco/presentation/ui/screens/authentication/update_profile_screen.dart';
+import 'package:indar_deco/presentation/ui/screens/order/commands_screen.dart';
 import 'package:indar_deco/presentation/ui/screens/settings/settings.dart';
 import 'package:indar_deco/presentation/ui/widgets/buttons/profile_button.dart';
 import 'package:indar_deco/presentation/ui/widgets/dialog/change_profil_image_dialog.dart';
@@ -81,7 +82,8 @@ class ProfileScreen extends StatelessWidget {
                         }),
                          ProfileButton(
                           onClick: (){
-                            
+                           Navigator.of(context).push(MaterialPageRoute(builder: (_)=>const CommandsScreen()));
+
                           },
                         text: AppLocalizations.of(context)!.my_orders,icon: APPSVG.walletIcon),
                         ProfileButton(

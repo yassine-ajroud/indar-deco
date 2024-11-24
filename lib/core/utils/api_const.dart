@@ -14,6 +14,7 @@ class ApiConst {
   static const String verifyOTP = "$baseUrl/VerifCode";
   static const String resetPassword = "$baseUrl/Resetpassword";
   static const String updateUserImage = "$baseUrl/updateImage";
+  static const String userEmail = "$baseUrl/users/email";
 
   //cart apis
   static const String addCart = "$baseUrl/cart/add";
@@ -76,5 +77,5 @@ class ApiConst {
   //static const String paiement = "$baseUrl/payment";
 */
   //assets apis
-  static const String images = "http://$ipAddress:8000/uploads/images";
+  static const String images = "http://$ipAddress:9000/uploads/images";
 }

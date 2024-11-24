@@ -367,8 +367,7 @@ class ProductScreen extends StatelessWidget {
                                               final AuthenticationController
                                                   authenticationController =
                                                   Get.find();
-                                              cartController.addSale(Sales(
-                                                  status: [],
+                                          await    cartController.addSale(Sales(
                                                   modelId:
                                                       pc.selected3Dproduct.id,
                                                   productId:

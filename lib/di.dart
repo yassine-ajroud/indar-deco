@@ -36,6 +36,7 @@ import 'package:indar_deco/domain/repositories/sub_category_repository.dart';
 import 'package:indar_deco/domain/repositories/supplier_repository.dart';
 import 'package:indar_deco/domain/repositories/wishlist_repository.dart';
 import 'package:indar_deco/domain/usecases/authentication_usecases/forget_password_usecase.dart';
+import 'package:indar_deco/domain/usecases/authentication_usecases/get_recovery_email_usecase.dart';
 import 'package:indar_deco/domain/usecases/authentication_usecases/reset_password_usecase.dart';
 import 'package:indar_deco/domain/usecases/authentication_usecases/verify_otp_usecase.dart';
 
@@ -167,6 +168,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GoogleLoginUsecase(sl()));
   sl.registerLazySingleton(() => FacebookLoginUsecase(sl()));
   sl.registerLazySingleton(() => AutoLoginUsecase(sl()));
+  sl.registerLazySingleton(() => GetRecoveryEmailUsecase(sl()));
 
   //cart//
   sl.registerLazySingleton(() => CreateCartUsecase(sl()));

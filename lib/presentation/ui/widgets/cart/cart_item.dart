@@ -38,7 +38,7 @@ class CartItem extends StatelessWidget {
                         children: [
                           SlidableAction(
                               borderRadius: BorderRadius.circular(15),
-                              backgroundColor: AppColors.primary,
+                              backgroundColor: AppColors.red,
                               icon: Icons.delete,
                               label: AppLocalizations.of(context)!.delete,
                               onPressed: (context) async {
@@ -46,70 +46,78 @@ class CartItem extends StatelessWidget {
                               }),
                         ],
                       ),
-              child: Container(
-                 decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: AppColors.white
-              ),
-                child: Row(
-                  
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                     InkWell(
-                      onTap: (){
-                        productController.currentProductid=sale.productId;
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const ProductScreen()));
-                      },
-                       child: ClipRRect(
-                        borderRadius: BorderRadius.circular(15),
-                        child: Image.network(controller.cartProducts.firstWhere((element) => element.id==sale.modelId).texture,height: 100.h,width: 100.w,fit: BoxFit.cover,)),
-                     ),
-                              const SizedBox(width: 10,),
-                     SizedBox(
-                      width: 170.w,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
+              child: Stack(
+                children: [
+                  ColorFiltered(
+                    colorFilter: sale.quantity<1? const ColorFilter.mode(AppColors.grey, BlendMode.modulate):const ColorFilter.mode(AppColors.transparent, BlendMode.saturation),
+                    child: Container(
+                       decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      color: AppColors.white
+                    ),
+                      child: Row(
+                        
+                        mainAxisSize: MainAxisSize.max,
                         children: [
-                          SizedBox(
-                            width: 150.w,
-                            child: Text(productController.allProducts.firstWhere((element) => element.id==sale.productId).name,style: AppTextStyle.smallBlackTitleTextStyle,overflow: TextOverflow.ellipsis,)),
-                          const SizedBox(height: 10,),
+                           InkWell(
+                            onTap: (){
+                              productController.currentProductid=sale.productId;
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const ProductScreen()));
+                            },
+                             child: ClipRRect(
+                              borderRadius: BorderRadius.circular(15),
+                              child: Image.network(controller.cartProducts.firstWhere((element) => element.id==sale.modelId).texture,height: 100.h,width: 100.w,fit: BoxFit.cover,)),
+                           ),
+                                    const SizedBox(width: 10,),
                            SizedBox(
-                            width: 150.w,
-                             child: Text(supplierController.productSupplier(productController.allProducts.firstWhere((element) => element.id==sale.productId).provider),style: AppTextStyle.smallGreyTextStyle,overflow: TextOverflow.ellipsis,)),
-                          const SizedBox(height: 10,),
-                          Text('${sale.totalPrice}${AppLocalizations.of(context)!.dinar}',style: AppTextStyle.priceTextStyle,overflow: TextOverflow.visible,),
-                    
+                            width: 170.w,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                SizedBox(
+                                  width: 150.w,
+                                  child: Text(productController.allProducts.firstWhere((element) => element.id==sale.productId).name,style: AppTextStyle.smallBlackTitleTextStyle,overflow: TextOverflow.ellipsis,)),
+                                const SizedBox(height: 10,),
+                                 SizedBox(
+                                  width: 150.w,
+                                   child: Text(supplierController.productSupplier(productController.allProducts.firstWhere((element) => element.id==sale.productId).provider),style: AppTextStyle.smallGreyTextStyle,overflow: TextOverflow.ellipsis,)),
+                                const SizedBox(height: 10,),
+                                Text('${sale.totalPrice}${AppLocalizations.of(context)!.dinar}',style: AppTextStyle.priceTextStyle,overflow: TextOverflow.visible,),
+                          
+                              ],
+                            )),
+                  
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(4),
+                                                              color: AppColors.primary,
+                  
+                                ),
+                                width: 60.w,
+                                height: 30.h,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                               GestureDetector(
+                                onTap:()async=>  await controller.decrimentSaleQuantity(sale.id!),
+                                child:const Icon(Icons.remove,color: AppColors.white,size: 18)), 
+                                Padding(
+                                   padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                                  child: Text(sale.quantity.toString(),style: AppTextStyle.whiteTextStyle,),
+                                ) ,
+                                 GestureDetector(
+                                 onTap:()async=>  await controller.incrementSaleQuantity(sale.id!),
+                                  child:const Icon(Icons.add,color: AppColors.white,size: 18,)),  
+                  
+                                ]),
+                              ),
                         ],
-                      )),
-
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(4),
-                                                        color: AppColors.primary,
-
-                          ),
-                          width: 60.w,
-                          height: 30.h,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                         GestureDetector(
-                          onTap:()async=>  await controller.decrimentSaleQuantity(sale.id!),
-                          child:const Icon(Icons.remove,color: AppColors.white,size: 18)), 
-                          Padding(
-                             padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                            child: Text(sale.quantity.toString(),style: AppTextStyle.whiteTextStyle,),
-                          ) ,
-                           GestureDetector(
-                           onTap:()async=>  await controller.incrementSaleQuantity(sale.id!),
-                            child:const Icon(Icons.add,color: AppColors.white,size: 18,)),  
-
-                          ]),
-                        ),
-                  ],
-                ),
+                      ),
+                    ),
+                  ),
+                  sale.quantity<1? Positioned.fill(child: Align(alignment: Alignment.center, child: Text(AppLocalizations.of(context)!.out_of_stock,style: AppTextStyle.whiteTextStyle,))) :const SizedBox()
+                ],
               ),
             ),
           ),

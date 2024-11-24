@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:indar_deco/core/utils/api_const.dart';
 import 'package:indar_deco/data/data_sources/local_data_source/authentication_local_data_source.dart';
@@ -46,13 +49,14 @@ Future<TokenModel>get token async {
   @override
   Future<List<Reclamation>> getAllReclamations(String userId) async{
     try {
+            await verifyToken();
       final response = await dio.get('${ApiConst.reclamations}/all/$userId',
       options: Options(
           headers: {
             "authorization": "Bearer ${await token.then((value) => value.token)}",
           },
         ),);
-      List<dynamic> data = response.data;
+      List<dynamic> data =response.data;
       List<ReclamationModel> sales =
           data.map((e) => ReclamationModel.fromJson(e)).toList();
       return sales;
@@ -64,6 +68,7 @@ Future<TokenModel>get token async {
   @override
   Future<Reclamation> getSingleReclamations(String reclamationId) async{
      try {
+      await verifyToken();
       final response = await dio.get('${ApiConst.reclamations}/$reclamationId',
       options: Options(
           headers: {

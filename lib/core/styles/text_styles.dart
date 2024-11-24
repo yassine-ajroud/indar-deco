@@ -23,7 +23,7 @@ class AppTextStyle {
  static TextStyle normalTextStyle = TextStyle(fontWeight: FontWeight.w400, fontSize: 14.sp, color: AppColors.black);
  static TextStyle promotionTextTextStyle= TextStyle(fontWeight: FontWeight.w500, fontSize: 14.sp, color: AppColors.white,fontFamily: 'Alata',);
   static TextStyle cartBadgeTextTextStyle= TextStyle(fontWeight: FontWeight.w400, fontSize: 7.sp, color: AppColors.white,fontFamily: 'Alata',);
- static TextStyle promotiondiscountTextStyle= TextStyle(fontWeight: FontWeight.w600, fontSize: 22.sp, color: AppColors.primary,fontFamily: 'Alata',);
+ static TextStyle promotiondiscountTextStyle= TextStyle(fontWeight: FontWeight.w600, fontSize: 22.sp, color: AppColors.secondary,fontFamily: 'Alata',);
  static TextStyle smallBlackTitleTextStyle = TextStyle(fontWeight: FontWeight.w600, fontSize: 12.sp, color: AppColors.black,fontFamily: 'Alata');
  static TextStyle priceTextStyle = TextStyle(fontWeight: FontWeight.bold, fontSize: 13.sp, color: AppColors.primary,fontFamily: 'Alata');
  static TextStyle mainPriceTextStyle = TextStyle(fontWeight: FontWeight.w600, fontSize: 18.sp, color: AppColors.primary,fontFamily: 'Alata');

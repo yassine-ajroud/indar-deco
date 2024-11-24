@@ -49,10 +49,11 @@ class SupplierController extends GetxController{
     if(tousCategories.isEmpty){
     final CategoryController categoryController = Get.find();
     List<Category> res= [Category(id: 'tous', title: 'All', image: 'image')];
-    selectedCategory=res[0];
      final allCategories=await categoryController.getAllCategories();
     final prods= getSupplierProducts(supplierID);
     selectedProducts=prods;
+        selectCategory(res[0]);
+
     for (var prod in prods) {
       if(!res.contains(allCategories.firstWhere((element) => element.id==prod.category))){
       res.add(allCategories.firstWhere((element) => element.id==prod.category));
@@ -62,6 +63,7 @@ class SupplierController extends GetxController{
     tousCategories = res;
   }  
   return tousCategories;
+  
 } 
 
   void selectCategory(Category category){

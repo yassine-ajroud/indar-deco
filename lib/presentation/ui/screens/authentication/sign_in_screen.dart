@@ -6,6 +6,7 @@ import 'package:indar_deco/core/styles/text_styles.dart';
 import 'package:indar_deco/core/utils/adaptive.dart';
 import 'package:indar_deco/core/utils/svg.dart';
 import 'package:indar_deco/presentation/controllers/authentication_controller.dart';
+import 'package:indar_deco/presentation/controllers/settings_controller.dart';
 import 'package:indar_deco/presentation/ui/screens/authentication/forget_password_screen.dart';
 import 'package:indar_deco/presentation/ui/screens/authentication/signup_screen.dart';
 import 'package:indar_deco/presentation/ui/widgets/buttons/primary_button.dart';
@@ -45,7 +46,25 @@ class _LoginScreenState extends State<LoginScreen> {
       backgroundColor: AppColors.white,
       appBar: AppBar(
                 backgroundColor: AppColors.white,
-
+      actions: [GetBuilder(
+        init: SettingsController(),
+        builder: (c) {
+          return PopupMenuButton(itemBuilder: (_)=>[
+            PopupMenuItem(value: 'en',child: Text(AppLocalizations.of(context)!.en),),
+             PopupMenuItem(value: 'fr',child: Text(AppLocalizations.of(context)!.fr),),
+              PopupMenuItem(value: 'ar',child: Text(AppLocalizations.of(context)!.ar),)
+          ],child:const  Padding(
+            padding:  EdgeInsets.symmetric(horizontal :10.0),
+            child:  Icon(Icons.translate),
+          ),
+          onSelected: (v)async{
+           // c.setLocal(v);
+            await c.saveLocale(v);
+            await c.loadLocale();
+          },
+          );
+        }
+      )],
       automaticallyImplyLeading: false,
       ),
       body: Center(

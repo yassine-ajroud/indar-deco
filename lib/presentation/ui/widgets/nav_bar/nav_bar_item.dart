@@ -18,7 +18,7 @@ class NavBarItem extends StatelessWidget {
           onTap: (){
             controller.selectScreen(index);
           },          
-          child:  SvgPicture.string(icon,color: index==controller.selectedScreen?AppColors.primary:AppColors.black,),
+          child:  SvgPicture.string(icon,color: index==controller.selectedScreen?AppColors.secondary:AppColors.black,),
         );
       }
     );

@@ -44,6 +44,8 @@ class SalesRemoteDataSourceImp implements SalesRemoteDataSource{
   @override
   Future<SalesModel> addSale(SalesModel newSale) async {
       try {
+            await verifyToken();
+
       final res = await dio.post(ApiConst.addSale, data: newSale.toJson(),
        options: Options(
           headers: {
@@ -59,6 +61,8 @@ class SalesRemoteDataSourceImp implements SalesRemoteDataSource{
   @override
   Future<List<SalesModel>> getAllSales(String userId) async{
      try {
+            await verifyToken();
+
       final response = await dio.get('${ApiConst.allSales}/$userId',
        options: Options(
           headers: {
@@ -77,6 +81,8 @@ class SalesRemoteDataSourceImp implements SalesRemoteDataSource{
   @override
   Future<SalesModel> getSingleSales(String id) async{
        try {
+              await verifyToken();
+
       final response = await dio.get('${ApiConst.oneSale}/$id',
        options: Options(
           headers: {
@@ -93,6 +99,8 @@ class SalesRemoteDataSourceImp implements SalesRemoteDataSource{
   @override
   Future<void> deleteSales(String id) async{
      try {
+          await verifyToken();
+
        await dio.delete('${ApiConst.oneSale}/$id',
         options: Options(
           headers: {

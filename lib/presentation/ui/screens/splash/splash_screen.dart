@@ -33,13 +33,12 @@ class SplashScreen extends StatefulWidget {
     Get.put(MainScreenController());
     Get.put(SupplierController());
     Get.put(ProductController());
- Get.put(CategoryController()) ;
+   Get.put(CategoryController()) ;
      Get.put(PromotionController());
     final  SettingsController settingsController = Get.find() ;
     final AuthenticationController authController = Get.find();
     final WishListController wishListController = Get.find();
     final CartController cartController = Get.find();
-
     final lang = await settingsController.loadLocale();
     settingsController.setLocal(lang);
     bool res = true;
@@ -81,34 +80,14 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        extendBodyBehindAppBar: true,
-        body: FutureBuilder(
-          future: SplashScreen.init(context, 2),
-          builder:(_,snapshot)=> Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              const SizedBox(height: 10,),
-              Center(
-                
-               child: Container(
-                 width: 198.w,
-                  height: 198.h,
-                 color: AppColors.darkGrey,
-                ),
-              ),
-              const SizedBox(height: 180,),
-    
-              Padding(
-                padding: const EdgeInsets.all(25.0),
-                child: SizedBox(
-                  width: 300.w,
-                  child: Text(AppLocalizations.of(context)!.splash_text,style: AppTextStyle.appBarTextStyle,)),
-              )
-            ],
-          ),
+    return Scaffold(
+      backgroundColor: AppColors.white,
+      extendBodyBehindAppBar: true,
+      body: FutureBuilder(
+        future: SplashScreen.init(context, 2),
+        builder:(_,snapshot)=> Center(
+          
+         child: Image.asset('assets/images/instar.jpg',width: 250.w,)
         ),
       ),
     );

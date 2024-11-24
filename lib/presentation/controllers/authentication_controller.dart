@@ -13,6 +13,7 @@ import 'package:indar_deco/core/utils/string_const.dart';
 import 'package:indar_deco/domain/entities/user.dart';
 import 'package:indar_deco/domain/usecases/authentication_usecases/create_account_usecase.dart';
 import 'package:indar_deco/domain/usecases/authentication_usecases/facebook_login_usecase.dart';
+import 'package:indar_deco/domain/usecases/authentication_usecases/get_recovery_email_usecase.dart';
 import 'package:indar_deco/domain/usecases/authentication_usecases/get_user_usecase.dart';
 import 'package:indar_deco/domain/usecases/authentication_usecases/google_login_usecase.dart';
 import 'package:indar_deco/domain/usecases/authentication_usecases/login_usecase.dart';
@@ -151,9 +152,9 @@ class AuthenticationController extends GetxController{
     update();
   }
 
-  Future<void> sendFrogetPasswordRequest(TextEditingController useremail,BuildContext context)async{
+  Future<void> sendFrogetPasswordRequest(TextEditingController useremail,String destionation,BuildContext context)async{
     String message='';
-     final res = await ForgetPasswordUsecase(sl())(useremail.text);
+     final res = await ForgetPasswordUsecase(sl())(email:useremail.text,destination: destionation);
         res.fold((l) =>message=l.message!
         , (r) {
           myemail = useremail.text;
@@ -215,7 +216,7 @@ class AuthenticationController extends GetxController{
 
   Future<String> createAccount({required TextEditingController email,required TextEditingController firstName,required TextEditingController lastName,required TextEditingController password,required TextEditingController cpassword,required BuildContext context})async{
 
-          final res = await CreateAccountUsecase(sl()).call(email: email.text, password: password.text,address: null,phone: null,firstName: firstName.text,lastName: lastName.text,image: '',oauth: null,birthdate: null,gender: null);
+          final res = await CreateAccountUsecase(sl()).call(email: email.text, password: password.text,address: null,phone: null,firstName: firstName.text,lastName: lastName.text,image: '',oauth: null,birthdate: null,gender: null,recoveryEmail: null);
       String userid="";
       String message='';
       res.fold((l) => 
@@ -321,27 +322,15 @@ String message='error';
     
     final res =await FacebookLoginUsecase(sl())();
     res.fold((l) => null, (r)async {
-         final user=  await CreateAccountUsecase(sl()).call(oauth:'F',email: r['id'].toString(), password: '0987654321',address: null,phone: '',firstName: r['name'].split(' ')[0].toString(),lastName: r['name'].split(' ')[1].toString(),image: r['picture']['data']['url'],birthdate: null,gender: null);
+         final user=  await CreateAccountUsecase(sl()).call(oauth:'F',email: r['id'].toString(), password: 'Facebook India Delta ${r['id']}',address: null,phone: '',firstName: r['name'].split(' ')[0].toString(),lastName: r['name'].split(' ')[1].toString(),image: r['picture']['data']['url'],birthdate: null,gender: null,recoveryEmail: null);
           user.fold((l) => null, (ur)async {
           await CreateWishListUsecase(sl())(userId:ur);
                            await CreateCartUsecase(sl())(userId: ur);
         });
         TextEditingController email = TextEditingController(text:r['id']);
-                TextEditingController password = TextEditingController(text:'0987654321' );
+                TextEditingController password = TextEditingController(text:'Facebook India Delta ${r['id']}' );
 
 await login(email,password , context);
-        //  final lg = await LoginUsecase(sl())(email: r['id'], password: '0987654321');
-        //  lg.fold((l) => null, (r) async{
-        //                               token = r;
-        //                               await getCurrentUser(token.userId);
-        //   final WishListController wishListController = Get.find();
-        //                           final CartController cartController = Get.find();
-        //                           final AuthenticationController authController = Get.find();
-        //                           await wishListController.getUserWishlist(authController.currentUser.id!);
-        //                           await cartController.getUserCart(authController.currentUser.id!);
-        //    return Navigator.of(context).pushReplacement(MaterialPageRoute(builder:(_)=>const MainScreen()));
-           
-        //  });
     });
     isLoading = false;
     update();
@@ -352,29 +341,16 @@ await login(email,password , context);
     
     final res =await GoogleLoginUsecase(sl())();
     res.fold((l) => null, (r)async {
-        final user=  await CreateAccountUsecase(sl()).call(oauth:'G',email: r['email'], password: '0987654321',address: null,phone: '',firstName: r['firstName'],lastName: r['lastName'],image: r['image'],birthdate: null,gender: null);
+        final user=  await CreateAccountUsecase(sl()).call(oauth:'G',email: r['email'], password: 'Google India Delta ${r['id']}',address: null,phone: '',firstName: r['firstName'],lastName: r['lastName'],image: r['image'],birthdate: null,gender: null,recoveryEmail: null);
         user.fold((l) => null, (ur)async {
           await CreateWishListUsecase(sl())(userId:ur);
                            await CreateCartUsecase(sl())(userId: ur);
         });
              
                  TextEditingController email = TextEditingController(text:r['email']);
-                TextEditingController password = TextEditingController(text:'0987654321' );
+                TextEditingController password = TextEditingController(text:'Google India Delta ${r['id']}' );
 
-await login(email,password , context);               
-        //  final lg = await LoginUsecase(sl())(email: r['email'], password: '0987654321');
-        //  lg.fold((l) => null, (r) async{
-        //                               token = r;
-        //                               await getCurrentUser(token.userId);
-        //                                 final WishListController wishListController = Get.find();
-        //                           final CartController cartController = Get.find();
-        //                           final AuthenticationController authController = Get.find();
-        //                           await wishListController.getUserWishlist(authController.currentUser.id!);
-        //                           await cartController.getUserCart(authController.currentUser.id!);
-
-        //    return Navigator.of(context).pushReplacement(MaterialPageRoute(builder:(_)=>const MainScreen()));
-           
-        //  });
+    await login(email,password , context);               
     });
     isLoading = false;
     update();
@@ -389,4 +365,10 @@ await login(email,password , context);
       return true;
   } 
 
+Future<String?> getRecoveryEmail(String email)async{
+   String? result;
+  final res = await GetRecoveryEmailUsecase(sl())(email: email);
+  res.fold((l) => null, (r) =>result=r );
+  return result;
+}
 }

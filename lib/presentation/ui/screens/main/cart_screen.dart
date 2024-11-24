@@ -8,6 +8,7 @@ import 'package:indar_deco/core/styles/text_styles.dart';
 import 'package:indar_deco/core/utils/string_const.dart';
 import 'package:indar_deco/presentation/controllers/authentication_controller.dart';
 import 'package:indar_deco/presentation/controllers/cart_controller.dart';
+import 'package:indar_deco/presentation/ui/screens/payment/payment_address_screen.dart';
 import 'package:indar_deco/presentation/ui/widgets/buttons/primary_button.dart';
 import 'package:indar_deco/presentation/ui/widgets/cart/cart_item.dart';
 // ignore: depend_on_referenced_packages
@@ -190,10 +191,10 @@ class CartScreen extends StatelessWidget {
                               PrimaryButton(
                                 text: AppLocalizations.of(context)!.checkout,
                                 click: () {
-                                  // if(controller.currentCart.productsId.isNotEmpty){
-                                  // Navigator.of(context).push(MaterialPageRoute(builder: (_)=>const PaymentAddressScreen()));
+                                  if(controller.currentCart.productsId.isNotEmpty){
+                                  Navigator.of(context).push(MaterialPageRoute(builder: (_)=>const PaymentAddressScreen()));
 
-                                  // }
+                                }
                                 },
                                 disabled:
                                     controller.currentCart.productsId.isEmpty,

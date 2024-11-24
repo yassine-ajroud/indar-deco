@@ -34,7 +34,6 @@ class _InputTextState extends State<InputText> {
       maxLength: widget.length,
       validator: widget.validator,
       controller: widget.controler,
-    
     obscureText: obs ,
     keyboardType: widget.type ?? TextInputType.text,
       decoration: InputDecoration(

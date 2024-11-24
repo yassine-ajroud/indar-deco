@@ -2,9 +2,12 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:indar_deco/core/utils/string_const.dart';
 import 'package:indar_deco/presentation/controllers/authentication_controller.dart';
+import 'package:indar_deco/presentation/controllers/settings_controller.dart';
 import 'package:indar_deco/presentation/ui/screens/authentication/sign_in_screen.dart';
 import 'package:indar_deco/presentation/ui/widgets/buttons/primary_button.dart';
+import 'package:indar_deco/presentation/ui/widgets/dialog/terms_conditions.dart';
 import 'package:indar_deco/presentation/ui/widgets/text_fields/input.dart';
 import '../../../../core/styles/colors.dart';
 import '../../../../core/styles/text_styles.dart';
@@ -45,9 +48,28 @@ class _SignupScreenState extends State<SignupScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar:AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: AppColors.white,
-      ) ,
+                backgroundColor: AppColors.white,
+      actions: [GetBuilder(
+        init: SettingsController(),
+        builder: (c) {
+          return PopupMenuButton(itemBuilder: (_)=>[
+            PopupMenuItem(value: 'en',child: Text(AppLocalizations.of(context)!.en),),
+             PopupMenuItem(value: 'fr',child: Text(AppLocalizations.of(context)!.fr),),
+              PopupMenuItem(value: 'ar',child: Text(AppLocalizations.of(context)!.ar),)
+          ],child:const  Padding(
+            padding:  EdgeInsets.symmetric(horizontal :10.0),
+            child:  Icon(Icons.translate),
+          ),
+          onSelected: (v)async{
+           // c.setLocal(v);
+            await c.saveLocale(v);
+            await c.loadLocale();
+          },
+          );
+        }
+      )],
+      automaticallyImplyLeading: false,
+      ), 
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20),
@@ -130,8 +152,44 @@ class _SignupScreenState extends State<SignupScreen> {
                         }
                         return null;
                       }),
+                      const SizedBox(
+                          height: 5,
+                        ),
+                       SizedBox(
+                        width: MediaQuery.sizeOf(context).width,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            GetBuilder<AuthenticationController>(
+                            id: ControllerID.TERMS_AND_CONDITIONS,
+                              init: AuthenticationController(),
+                              builder: (controller) {
+                                return Checkbox(
+                                  activeColor: AppColors.primary,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  value: controller.termsAccepted,
+                                  onChanged: (value) {
+                                    controller.aceptTerms(value!);
+                                  },
+                                );
+                              },
+                            ),
+                            Expanded(
+                              child: Text.rich(
+                                TextSpan(children:[ TextSpan(text:AppLocalizations.of(context)!.i_accept,style:AppTextStyle.smallBlackTextStyle),
+                              WidgetSpan(alignment:PlaceholderAlignment.middle, child:GestureDetector(
+                                onTap: (){
+                                  showDialog(context: context, builder: (_)=>const TermsAndConditionsDialog());
+                                },
+                                child: Text( AppLocalizations.of(context)!.terms_and_conditions,style: AppTextStyle.smallBlackTextStyle.copyWith(fontWeight: FontWeight.bold) ))),]),overflow: TextOverflow.visible,),
+                            ),
+                          ],
+                        ),
+                      ),
                    const SizedBox(
-                          height: 40,
+                          height: 25,
                         ),
                   GetBuilder<AuthenticationController>(
                     init: AuthenticationController(),
@@ -139,7 +197,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       return PrimaryButton(
                         text: AppLocalizations.of(context)!.registration,
                         click: () async {
-                          if (_formKey.currentState!.validate()) {
+                          if (_formKey.currentState!.validate()&&controller.termsAccepted) {
 
                              await controller.createAccount(
                                 cpassword: cpassword,

@@ -25,7 +25,7 @@ abstract class AuthenticationRemoteDataSource {
   Future<Map<String,dynamic>> facebookLogin();
   Future<User> getcurrentUser(String id);
   Future<void> updateProfil({required String address,required String email,required String firstName,required String lastName,required String phone,required String id,required String birthdate,required String gender});
-  Future<void> forgetPassword(String email);
+  Future<void> forgetPassword({required String email,required String destination});
   Future<void> verifyOTP(String email,int otp);
   Future<void> resetPassword(String email,String password);
   Future<void> updatePassword(String userID,String oldPassword,String newPassword,String recoverEmail);
@@ -33,6 +33,7 @@ abstract class AuthenticationRemoteDataSource {
   Future<TokenModel> autoLogin();
   Future<void> clearUserImage(String userId);
   Future<void> updateUserImage(String userID,File file);
+  Future<String?> getRecoveryEmail(String email);
 
 
 }
@@ -134,6 +135,7 @@ class AuthenticationRemoteDataSourceImpl
         final name = user.displayName!.split(' ');
         final email = user.email;
          final res = {
+          'id': user.id,
           'firstName':name[0],
           'lastName':name[1],
           'email':email,
@@ -207,10 +209,10 @@ class AuthenticationRemoteDataSourceImpl
   }
   
   @override
-  Future<void> forgetPassword(String email) async{
+  Future<void> forgetPassword({required String email,required String destination}) async{
      try {
     AppLocalizations t = await AppLocalizations.delegate.load(Locale(await locale));
-     final res = await dio.post(ApiConst.forgetPassword, data: {"email":email});
+     final res = await dio.post(ApiConst.forgetPassword, data: {"email":email,"destination":destination});
      if(res.statusCode==404){
       throw DataNotFoundException(t.email_not_registred);
      }else if(res.statusCode==500){
@@ -331,5 +333,15 @@ String fileName = file.path.split('/').last;
     } catch (e) {
       throw ServerException(message: 'cannot update image');
     }
+  }
+  
+  @override
+  Future<String?> getRecoveryEmail(String email) async{
+         try {
+      final res = await dio.get(ApiConst.userEmail, data: {"email":email},);
+      return res.data['recoveryEmail'];
+    } catch (e) {
+      rethrow;
+    } 
   }
 }

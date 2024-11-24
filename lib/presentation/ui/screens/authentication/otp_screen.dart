@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
+import 'package:indar_deco/core/styles/colors.dart';
 import 'package:indar_deco/presentation/controllers/authentication_controller.dart';
+import 'package:indar_deco/presentation/controllers/settings_controller.dart';
 import 'package:indar_deco/presentation/ui/widgets/buttons/primary_button.dart';
 import 'package:otp_text_field_v2/otp_field_v2.dart';
 import '../../../../core/styles/text_styles.dart';
@@ -30,10 +32,28 @@ class _OTPScreen extends State<OTPScreen> {
     return Scaffold(
                 backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        automaticallyImplyLeading: true,
-      ),
+                backgroundColor: AppColors.white,
+      actions: [GetBuilder(
+        init: SettingsController(),
+        builder: (c) {
+          return PopupMenuButton(itemBuilder: (_)=>[
+            PopupMenuItem(value: 'en',child: Text(AppLocalizations.of(context)!.en),),
+             PopupMenuItem(value: 'fr',child: Text(AppLocalizations.of(context)!.fr),),
+              PopupMenuItem(value: 'ar',child: Text(AppLocalizations.of(context)!.ar),)
+          ],child:const  Padding(
+            padding:  EdgeInsets.symmetric(horizontal :10.0),
+            child:  Icon(Icons.translate),
+          ),
+          onSelected: (v)async{
+           // c.setLocal(v);
+            await c.saveLocale(v);
+            await c.loadLocale();
+          },
+          );
+        }
+      )],
+      automaticallyImplyLeading: true,
+      ), 
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(

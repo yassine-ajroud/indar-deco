@@ -33,7 +33,7 @@ class SettingsScreen extends StatelessWidget {
           child: Column(children: [
             SettingsItem(
                 text: AppLocalizations.of(context)!.lang,
-                icon: APPSVG.languageIcon,
+                icon: APPSVG.translateIcon,
                 trailing:InkWell(
                          onTap: () => Navigator.push(
                 context,

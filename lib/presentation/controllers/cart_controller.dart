@@ -41,7 +41,19 @@ Future<void> getCartProducts()async{
   cartProducts=[];
   for (var element in getCartmodelId) {
     final res = await Get3DProductsByIdUseCase(sl())(element);
-    res.fold((l) => null, (r) => cartProducts.add(r));
+    res.fold((l) => null, (r)async {
+      final s=cartSales.firstWhere((e) => e.modelId==element);
+
+      if(r.quantity<s.quantity || r.quantity <1){
+          cartSales.firstWhere((e) => e.modelId==element).quantity=0;
+       
+                        // print(productController.getPrice(prods.firstWhere((elm) => elm.id==r.product)));
+
+     //    cartSales.firstWhere((e) => e.modelId==element).totalPrice=r.quantity*productController.getPrice(prods.firstWhere((elm) => elm.id==s.productId));
+        //await UpdateSaleUsecase(sl())( cartSales.firstWhere((e) => e.modelId==element));
+      }
+      cartProducts.add(r);
+    });
   }
 }
 
@@ -96,6 +108,7 @@ Future<List<Sales>> getCartSales()async{
 
  
  Future addSale(Sales newSale)async{
+  print('sales tracking add sale${newSale.modelId}');
   if(!getCartmodelId.contains(newSale.modelId)){
     final addsale = await AddSaleUsecase(sl()).call(newSale);
     addsale.fold((l) => null, (r) async{
@@ -119,17 +132,17 @@ Future<List<Sales>> getCartSales()async{
 void getReclamationPrice(){
   double sum=0.0;
   for (var sale in cartSales) {
-   sum+=sale.totalPrice;
+    if(sale.quantity>0) {
+      sum+=sale.totalPrice;
+    }
   }
   totalPrice= sum+shipping_fee;
 }
 
 Future _updateSailes()async{
-          currentCart.productsId=getCartSalesId;
-  final rs = await UpdateCartUsecase(sl()).call(cart: currentCart);
-    rs.fold((l) => null, (r)  async {
-    });
-    update();
+  currentCart.productsId=getCartSalesId;
+  await UpdateCartUsecase(sl()).call(cart: currentCart);
+  update();
 }
 
 Future deleteSale(String saleId)async{
