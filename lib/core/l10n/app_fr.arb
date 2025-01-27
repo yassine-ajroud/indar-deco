@@ -160,7 +160,7 @@
 "view_comments":"voir les commentaires",
 "add_to_cart":"Ajouter au panier",
 "similar_products":"produits similaires",
-"minute":"minute",
+"minute":"minutes",
 "hour":"heure",
 "day":"jour",
 "week":"semaine",
@@ -215,13 +215,9 @@
 "who_are_we":"Qui somme nous?",
 "send_OTP_to":"Envoyez l'OTP à",
 "all_products_out_of_stock":"Tous les produits sont indisponibles",
-"terms_conditions":"Conditions Générales d'Utilisation"
-
-
-
-
-
-
+"terms_conditions":"Conditions Générales d'Utilisation",
+"no_notifications":"Il n'y a aucune notification",
+"update_order_status":"mise à jour de l'état de la commande"
 
 
 

@@ -14,7 +14,6 @@ abstract class CartRemoteDataSource {
   Future<void> updateCart({required CartModel cart});
   Future<CartModel> getCart({required String userId});
   Future<void> deleteCart({required String cartId});
-
 }
 
 class CartRemoteDataSourceImpl implements CartRemoteDataSource {

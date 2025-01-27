@@ -31,6 +31,7 @@ class ControllerID{
     static const UPDTAE_CONTACT = 'update_contact';
     static const TOGGLE_COMMENT ='toggle_comment';
     static const PICK_COMMENT_IMAGE ='pick_comment_image';
+    static const NOTIFICATIONS_COUNT = 'notifications_count';
 
 
 }

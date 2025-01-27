@@ -58,7 +58,7 @@ class _RecoveryEmailDialogState extends State<RecoveryEmailDialog> {
       actions: [Padding(
         padding: const EdgeInsets.only(bottom:8.0),
         child: PrimaryButton(text: AppLocalizations.of(context)!.send, click: ()async{
-                                      await  authenticationController.sendFrogetPasswordRequest(TextEditingController.fromValue(TextEditingValue(text:widget.email!)),dest, context);
+                                      await  authenticationController.sendFrogetPasswordRequest(TextEditingController.fromValue(TextEditingValue(text:widget.email)),dest, context);
 
         }),
       )],

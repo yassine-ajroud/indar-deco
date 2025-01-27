@@ -8,10 +8,12 @@ import 'package:indar_deco/core/utils/string_const.dart';
 import 'package:indar_deco/core/utils/svg.dart';
 import 'package:indar_deco/presentation/controllers/authentication_controller.dart';
 import 'package:indar_deco/presentation/controllers/cart_controller.dart';
+import 'package:indar_deco/presentation/controllers/notifications_controller.dart';
 import 'package:indar_deco/presentation/controllers/product_controller.dart';
 import 'package:indar_deco/presentation/controllers/supplier_controller.dart';
 import 'package:indar_deco/presentation/controllers/wishlist_controller.dart';
 import 'package:indar_deco/presentation/ui/screens/main/cart_screen.dart';
+import 'package:indar_deco/presentation/ui/screens/notifications/notifications_screen.dart';
 import 'package:indar_deco/presentation/ui/widgets/wishlist/favourite_item.dart';
 
 
@@ -47,9 +49,36 @@ class WishListScreen extends StatelessWidget {
       snap: true,
       pinned: true,
       floating: true,
-        actions: [
-        IconButton(onPressed: (){}, icon: SvgPicture.string(APPSVG.notificationIcon)),
-        IconButton(
+           actions: [
+          IconButton(
+              onPressed: () {
+                 Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => const NotificationsScreen()));
+              },
+              icon: Stack(
+                children: [
+                  SvgPicture.string(APPSVG.notificationIcon),
+                  Positioned(
+                    top: 0,
+                    right: 0,
+                    child: GetBuilder(
+                      init: NotificationsController(),
+                      id: ControllerID.NOTIFICATIONS_COUNT,
+                      builder: (notifsController) {
+                        return notifsController.unseenCount<1?Container() : CircleAvatar(
+                          backgroundColor: AppColors.primary,
+                          radius: 7,
+                          child: Text(
+                            notifsController.unseenCount.toString(),
+                            style: AppTextStyle.cartBadgeTextTextStyle,
+                          ),
+                        );
+                      },
+                    ),
+                  )
+                ],
+          )),
+          IconButton(
               onPressed: () {
                 Navigator.of(context).push(
                     MaterialPageRoute(builder: (_) => const CartScreen()));
@@ -86,7 +115,7 @@ class WishListScreen extends StatelessWidget {
                         itemBuilder: (_,index)=>FavouriteItem(supplier: supplierController.productSupplier(productController.allProducts.firstWhere((element) => element.id==controller.wishlistModel[index].product).provider),  texture:controller.wishlistModel[index] ,image: controller.wishlistModel[index].texture, label:productController.allProducts.firstWhere((element) => element.id== controller.wishlistModel[index].product).name, price: productController.getPrice(productController.allProducts.firstWhere((element) => element.id== controller.wishlistModel[index].product)),
                         liked: controller.getWishlistIds.contains(controller.wishlistModel[index].id),)):
                                SliverToBoxAdapter(
-                    child: Center(child: Text(AppLocalizations.of(context)!.empty_wishlis)),
+                    child: Center(child: Text(AppLocalizations.of(context)!.empty_wishlis,style: AppTextStyle.blackTextStyle,)),
                   ),
                         const  SliverToBoxAdapter(
                     child: SizedBox(height: 10),

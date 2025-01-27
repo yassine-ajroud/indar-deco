@@ -160,7 +160,7 @@
 "view_comments":"View comments",
 "add_to_cart":"Add to cart",
 "similar_products":"Similar products",
-"minute":"minute",
+"minute":"minutes",
 "hour":"hour",
 "day":"day",
 "week":"week",
@@ -214,7 +214,9 @@
 "who_are_we":"Who are we?",
 "send_OTP_to":"Send the OTP to",
 "all_products_out_of_stock":"All products are unavailable",
-"terms_conditions":"Terms and Conditions"
+"terms_conditions":"Terms and Conditions",
+"no_notifications":"There are no notifications",
+"update_order_status":"update status of the order"
 
 
 

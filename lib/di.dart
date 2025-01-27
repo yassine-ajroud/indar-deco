@@ -4,6 +4,7 @@ import 'package:indar_deco/data/data_sources/local_data_source/authentication_lo
 import 'package:indar_deco/data/data_sources/remote_data_source/authentication_remote_data_source.dart';
 import 'package:indar_deco/data/data_sources/remote_data_source/cart_remote_data_source.dart';
 import 'package:indar_deco/data/data_sources/remote_data_source/category_remote_data_source.dart';
+import 'package:indar_deco/data/data_sources/remote_data_source/notification_remote_data_source.dart';
 import 'package:indar_deco/data/data_sources/remote_data_source/product_remote_data_source.dart';
 import 'package:indar_deco/data/data_sources/remote_data_source/rating_remote_data_source.dart';
 import 'package:indar_deco/data/data_sources/remote_data_source/reclamations_remote_data_source.dart';
@@ -14,6 +15,7 @@ import 'package:indar_deco/data/data_sources/remote_data_source/wishlist_remote_
 import 'package:indar_deco/data/repositories/authentication_repository_impl.dart';
 import 'package:indar_deco/data/repositories/cart_repository_impl.dart';
 import 'package:indar_deco/data/repositories/category_reopsitory_impl.dart';
+import 'package:indar_deco/data/repositories/notification_repository_impl.dart';
 import 'package:indar_deco/data/repositories/product_3d_repository_impl.dart';
 import 'package:indar_deco/data/repositories/product_repository_impl.dart';
 import 'package:indar_deco/data/repositories/promotion_repository_impl.dart';
@@ -25,6 +27,7 @@ import 'package:indar_deco/data/repositories/sub_category_repository_impl.dart';
 import 'package:indar_deco/data/repositories/supplier_repository_impl.dart';
 import 'package:indar_deco/data/repositories/wishlist_repository_impl.dart';
 import 'package:indar_deco/domain/repositories/category_repository.dart';
+import 'package:indar_deco/domain/repositories/notifications_repository.dart';
 import 'package:indar_deco/domain/repositories/product3d_repository.dart';
 import 'package:indar_deco/domain/repositories/product_repository.dart';
 import 'package:indar_deco/domain/repositories/promotion_repository.dart';
@@ -39,6 +42,10 @@ import 'package:indar_deco/domain/usecases/authentication_usecases/forget_passwo
 import 'package:indar_deco/domain/usecases/authentication_usecases/get_recovery_email_usecase.dart';
 import 'package:indar_deco/domain/usecases/authentication_usecases/reset_password_usecase.dart';
 import 'package:indar_deco/domain/usecases/authentication_usecases/verify_otp_usecase.dart';
+import 'package:indar_deco/domain/usecases/notification_usecases/delete_notification_usecase.dart';
+import 'package:indar_deco/domain/usecases/notification_usecases/get_notification_by_id_usecase.dart';
+import 'package:indar_deco/domain/usecases/notification_usecases/get_notifications_by_user.dart';
+import 'package:indar_deco/domain/usecases/notification_usecases/update_notification_usecase.dart';
 
 import 'package:indar_deco/domain/usecases/promotion_usecases/get_all_promotions_usecase.dart';
 import 'package:indar_deco/domain/usecases/rating_usecases/add_rating_usecase.dart';
@@ -48,7 +55,6 @@ import 'package:indar_deco/domain/usecases/rating_usecases/get_single_rating_use
 import 'package:indar_deco/domain/usecases/rating_usecases/update_rating_usecase.dart';
 import 'package:indar_deco/domain/usecases/supplier_usecases/get_all_suppliers_usecase.dart';
 import 'package:indar_deco/domain/usecases/supplier_usecases/get_supplier_by_ud_usecase.dart';
-
 
 import 'data/data_sources/remote_data_source/product_3d_remote_data_source.dart';
 import 'data/data_sources/remote_data_source/supplier_remote_data_source.dart';
@@ -90,71 +96,67 @@ import 'domain/usecases/wishlist_usecases/delete_wishlist_usecase.dart';
 import 'domain/usecases/wishlist_usecases/get_wishlist_usecase.dart';
 import 'domain/usecases/wishlist_usecases/update_wishlist_usecase.dart';
 
-
 final sl = GetIt.instance;
 
 Future<void> init() async {
   /* repositories */
-   sl.registerLazySingleton<AuthenticationRepository>(() =>
+  sl.registerLazySingleton<AuthenticationRepository>(() =>
       AuthenticationRepositoryImpl(
           authRemoteDataSource: sl(), authLocalDataSource: sl()));
-  sl.registerLazySingleton<CartRepository>(() =>
-      CartRepositoryImpl(sl()));
-  sl.registerLazySingleton<WishListRepository>(() =>
-      WishListRepositoryImpl(sl()));
-  sl.registerLazySingleton<PromotionRepository>(() =>
-      PromotionRepositoryImpl(sl()));   
-  sl.registerLazySingleton<ProductRepository>(() =>
-      ProductRepositoryImp(sl()));   
-  sl.registerLazySingleton<SubCategoryRepository>(() =>
-      SubCategoryRepositoryImpl(sl())); 
-        sl.registerLazySingleton<CategoryRepository>(() =>
-      CategoryRepositoryImpl(sl()));   
-  sl.registerLazySingleton<SupplierRepository>(() =>
-      SupplierRepositoryImpl(sl())); 
-  sl.registerLazySingleton<Product3DRepository>(() =>
-      Product3DRepositoryImpl(sl())); 
-  sl.registerLazySingleton<RatingRepository>(
-    () => RatingRepositoryImpl(sl()));
-  sl.registerLazySingleton<ReviewRepository>(
-    () => ReviewRepositoryImpl(sl()));
-  sl.registerLazySingleton<SalesRepository>(
-    () => SalesRepositoryImpl(sl()));
+  sl.registerLazySingleton<CartRepository>(() => CartRepositoryImpl(sl()));
+  sl.registerLazySingleton<WishListRepository>(
+      () => WishListRepositoryImpl(sl()));
+  sl.registerLazySingleton<PromotionRepository>(
+      () => PromotionRepositoryImpl(sl()));
+  sl.registerLazySingleton<ProductRepository>(() => ProductRepositoryImp(sl()));
+  sl.registerLazySingleton<SubCategoryRepository>(
+      () => SubCategoryRepositoryImpl(sl()));
+  sl.registerLazySingleton<CategoryRepository>(
+      () => CategoryRepositoryImpl(sl()));
+  sl.registerLazySingleton<SupplierRepository>(
+      () => SupplierRepositoryImpl(sl()));
+  sl.registerLazySingleton<Product3DRepository>(
+      () => Product3DRepositoryImpl(sl()));
+  sl.registerLazySingleton<RatingRepository>(() => RatingRepositoryImpl(sl()));
+  sl.registerLazySingleton<ReviewRepository>(() => ReviewRepositoryImpl(sl()));
+  sl.registerLazySingleton<SalesRepository>(() => SalesRepositoryImpl(sl()));
   sl.registerLazySingleton<ReclamationRepository>(
-    () => ReclamationsRepositoryImpl(sl()));
-
+      () => ReclamationsRepositoryImpl(sl()));
+  sl.registerLazySingleton<NotificationRepository>(
+      () => NotificationRepositoryImpl(sl()));
 
   /* data sources */
-   sl.registerLazySingleton<AuthenticationRemoteDataSource>(
-       () => AuthenticationRemoteDataSourceImpl());
-   sl.registerLazySingleton<AuthenticationLocalDataSource>(
-       () => AuthenticationLocalDataSourceImpl());
+  sl.registerLazySingleton<AuthenticationRemoteDataSource>(
+      () => AuthenticationRemoteDataSourceImpl());
+  sl.registerLazySingleton<AuthenticationLocalDataSource>(
+      () => AuthenticationLocalDataSourceImpl());
   sl.registerLazySingleton<CartRemoteDataSource>(
       () => CartRemoteDataSourceImpl());
   sl.registerLazySingleton<WishListRemoteDataSource>(
       () => WishListRemoteDataSourceImpl());
   sl.registerLazySingleton<PromotionRemoteDataSource>(
-      () => PromotionRemoteDataSourceImpl());    
+      () => PromotionRemoteDataSourceImpl());
   sl.registerLazySingleton<ProductRemoteDataSource>(
-      () => ProductRemoteDataSourceImpl());   
+      () => ProductRemoteDataSourceImpl());
   sl.registerLazySingleton<CategoryRemoteDataSource>(
-      () => CategoryRemoteDataSourceImpl());  
+      () => CategoryRemoteDataSourceImpl());
   sl.registerLazySingleton<SubCategoryRemoteDataSource>(
-      () => SubCategoryRemoteDataSourceImpl());  
+      () => SubCategoryRemoteDataSourceImpl());
   sl.registerLazySingleton<SupplierRemoteDataSource>(
-      () => SupplierRemoteDataSourceImpl());  
+      () => SupplierRemoteDataSourceImpl());
   sl.registerLazySingleton<Product3DRemoteDataSource>(
-      () => Product3DRemoteDataSourceImpl()); 
+      () => Product3DRemoteDataSourceImpl());
   sl.registerLazySingleton<RatingRemoteDataSource>(
-      () => RatingRemoteDataSourceImpl()); 
+      () => RatingRemoteDataSourceImpl());
   sl.registerLazySingleton<ReviewRemoteDataSource>(
-      () => ReviewRemoteDataSourceImpl()); 
+      () => ReviewRemoteDataSourceImpl());
   sl.registerLazySingleton<SalesRemoteDataSource>(
-    () => SalesRemoteDataSourceImp());
+      () => SalesRemoteDataSourceImp());
   sl.registerLazySingleton<ReclamtionsRemoteDataSource>(
-    () => ReclamationRemoteDataSourceImpl());
+      () => ReclamationRemoteDataSourceImpl());
+  sl.registerLazySingleton<NotificationRemoteDataSource>(
+      () => NotificationRemoteDataSourceImpl());
 
- 
   /* usecases */
   //authentication//
   sl.registerLazySingleton(() => CreateAccountUsecase(sl()));
@@ -197,11 +199,9 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetAllCategoriesUsecase(sl()));
   sl.registerLazySingleton(() => GetAllSubCategoriesUsecase(sl()));
 
-
   //supplier//
   sl.registerLazySingleton(() => GetSupplierByIdUsecase(sl()));
   sl.registerLazySingleton(() => GetSuppliersUsecase(sl()));
-
 
   //rating//
   sl.registerLazySingleton(() => AddRatingUsecase(sl()));
@@ -229,4 +229,10 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetAllReclamationsUsecase(sl()));
   sl.registerLazySingleton(() => GetSingleReclamationUsecase(sl()));
 
+  
+  // //notifications//
+  sl.registerLazySingleton(() => UpdateNotificationUsecase(sl()));
+  sl.registerLazySingleton(() => GetNotificationByIDUsecase(sl()));
+  sl.registerLazySingleton(() => GetNotificationByUserUsecase(sl()));
+  sl.registerLazySingleton(() => DeleteNotificationUsecase(sl()));
 }

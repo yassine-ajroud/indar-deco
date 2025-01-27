@@ -12,3 +12,4 @@ class GetCartUsecase {
   Future<Either<Failure, Cart>> call({required String userId}) async =>
       await _repository.getCart(userId:userId);
 }
+

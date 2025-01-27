@@ -1,6 +1,6 @@
 class ApiConst {
 
-  static const String ipAddress = "192.168.1.20";//ip Address
+  static const String ipAddress = "192.168.1.18";//ip Address
   static const String baseUrl = "http://$ipAddress:9000/api"; 
   
   //authentication apis
@@ -72,6 +72,11 @@ class ApiConst {
   static const String addServiceImage="$baseUrl/addserviceimage";
   static const String updateServiceImage="$baseUrl/updateserviceimage";
 
+  //notification
+  static const String getOneNotification="$baseUrl/notifications/get";
+  static const String getUerNotifications="$baseUrl/notifications/get/user";
+  static const String updateNotifications="$baseUrl/notifications/update";
+  static const String deleteNotifications="$baseUrl/notifications/delete";
 
 /*
   //static const String paiement = "$baseUrl/payment";

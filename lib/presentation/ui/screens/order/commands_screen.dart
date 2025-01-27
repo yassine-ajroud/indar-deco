@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:indar_deco/core/styles/colors.dart';
 import 'package:indar_deco/core/styles/text_styles.dart';
-import 'package:indar_deco/domain/entities/reclamation.dart';
 import 'package:indar_deco/presentation/controllers/reclamations_controller.dart';
 import 'package:indar_deco/presentation/ui/screens/order/order_tracking.dart';
 import 'package:indar_deco/presentation/ui/widgets/order/command_Item.dart';

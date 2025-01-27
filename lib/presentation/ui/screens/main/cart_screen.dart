@@ -42,16 +42,10 @@ class CartScreen extends StatelessWidget {
                             AppLocalizations.of(context)!.cart,
                             style: AppTextStyle.appBarTextStyle,
                           ),
-                          // actions: [IconButton(onPressed: (){
-                          //   Navigator.of(context).push(MaterialPageRoute( builder:(_)=>const CartScreen()));
-                          // }, icon: SvgPicture.string(APPSVG.cartIcon))],
                           elevation: 4,
                           snap: true,
                           pinned: true,
                           floating: true,
-                          // actions: [
-                          // IconButton(onPressed: (){}, icon: SvgPicture.string(APPSVG.notificationIcon))
-                          // ],
                         ),
                         const SliverToBoxAdapter(
                           child: SizedBox(height: 20),
@@ -64,7 +58,7 @@ class CartScreen extends StatelessWidget {
                             : SliverToBoxAdapter(
                                 child: Center(
                                     child: Text(AppLocalizations.of(context)!
-                                        .empty_cart)),
+                                        .empty_cart,style: AppTextStyle.blackTextStyle)),
                               ),
                         SliverToBoxAdapter(
                           child: Padding(

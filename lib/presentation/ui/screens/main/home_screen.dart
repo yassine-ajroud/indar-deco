@@ -7,6 +7,7 @@ import 'package:indar_deco/core/styles/colors.dart';
 import 'package:indar_deco/core/styles/text_styles.dart';
 import 'package:indar_deco/core/utils/string_const.dart';
 import 'package:indar_deco/presentation/controllers/main_screen_controller.dart';
+import 'package:indar_deco/presentation/controllers/notifications_controller.dart';
 import 'package:indar_deco/presentation/controllers/product_controller.dart';
 import 'package:indar_deco/presentation/controllers/promotion_controller.dart';
 import 'package:indar_deco/presentation/controllers/supplier_controller.dart';
@@ -56,9 +57,11 @@ late final TextEditingController searchController;
           onRefresh: () async{
             final ProductController c= Get.find();
             final PromotionController p=Get.find();
+            final NotificationsController n=Get.find();
             c.allProducts=[];
             c.sortedProducts=[];
             p.promotionsList=[];
+            n.getNotifications();
             setState(() {
               
             });

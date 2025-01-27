@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:indar_deco/core/utils/string_const.dart';
 import 'package:indar_deco/di.dart';
 import 'package:indar_deco/domain/entities/category.dart';
@@ -33,7 +32,6 @@ class SupplierController extends GetxController{
   }
 
   Future getAllSupppliers()async{
-    print('get suppliers');
     final res =await GetSuppliersUsecase(sl())();
     res.fold((l) => null, (r) => suppliers=r);
   }
@@ -75,6 +73,5 @@ class SupplierController extends GetxController{
     }
     update([ControllerID.SELECT_SUPPLIER_CATEGORY]);
   }
-
 
 }

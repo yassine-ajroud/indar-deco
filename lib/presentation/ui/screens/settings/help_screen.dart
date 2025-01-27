@@ -25,17 +25,17 @@ class HelpScreen extends StatelessWidget {
              const SizedBox(height: 20,),
               Text('${AppLocalizations.of(context)!.address} :',style: AppTextStyle.smallBlackTitleTextStyle,),
                   const SizedBox(height: 5,),
-          Text('R56P+C9J, Av. Mohamed 5, Tunis',style: AppTextStyle.descriptionTextStyle,),
+          Text('Pépinière des Entreprises La Manouba',style: AppTextStyle.descriptionTextStyle,),
       
           const SizedBox(height: 20,),
           Text('${AppLocalizations.of(context)!.phone_number} :',style: AppTextStyle.smallBlackTitleTextStyle,),
                       const SizedBox(height: 5,),
-          Text('+216 71 000 000',style: AppTextStyle.descriptionTextStyle,),
+          Text('+216 56 273 801',style: AppTextStyle.descriptionTextStyle,),
       
           const SizedBox(height: 20,),
           Text('${AppLocalizations.of(context)!.email} :',style: AppTextStyle.smallBlackTitleTextStyle,),
                       const SizedBox(height: 5,),
-          Text('Instarcontact@gmail.com',style: AppTextStyle.descriptionTextStyle,)
+          Text('dhaouadinstar@gmail.com',style: AppTextStyle.descriptionTextStyle,)
       
                 
               ],

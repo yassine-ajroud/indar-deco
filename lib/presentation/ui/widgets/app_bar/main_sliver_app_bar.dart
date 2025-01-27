@@ -4,9 +4,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:indar_deco/core/styles/colors.dart';
 import 'package:indar_deco/core/styles/text_styles.dart';
+import 'package:indar_deco/core/utils/string_const.dart';
 import 'package:indar_deco/core/utils/svg.dart';
 import 'package:indar_deco/presentation/controllers/cart_controller.dart';
+import 'package:indar_deco/presentation/controllers/notifications_controller.dart';
 import 'package:indar_deco/presentation/ui/screens/main/cart_screen.dart';
+import 'package:indar_deco/presentation/ui/screens/notifications/notifications_screen.dart';
 import 'package:indar_deco/presentation/ui/widgets/text_fields/search_input.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -30,8 +33,33 @@ class MainSliverAppBar extends StatelessWidget {
         ),
         actions: [
           IconButton(
-              onPressed: () {},
-              icon: SvgPicture.string(APPSVG.notificationIcon)),
+              onPressed: () {
+                 Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => const NotificationsScreen()));
+              },
+              icon: Stack(
+                children: [
+                  SvgPicture.string(APPSVG.notificationIcon),
+                  Positioned(
+                    top: 0,
+                    right: 0,
+                    child: GetBuilder(
+                      init: NotificationsController(),
+                      id: ControllerID.NOTIFICATIONS_COUNT,
+                      builder: (notifsController) {
+                        return notifsController.unseenCount<1?Container() : CircleAvatar(
+                          backgroundColor: AppColors.primary,
+                          radius: 7,
+                          child: Text(
+                            notifsController.unseenCount.toString(),
+                            style: AppTextStyle.cartBadgeTextTextStyle,
+                          ),
+                        );
+                      },
+                    ),
+                  )
+                ],
+          )),
           IconButton(
               onPressed: () {
                 Navigator.of(context).push(

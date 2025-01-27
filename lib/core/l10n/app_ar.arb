@@ -216,7 +216,11 @@
 "who_are_we":"من نحن؟",
 "send_OTP_to":"أرسل الرمز إلى",
 "all_products_out_of_stock":"جميع المنتجات غير متوفرة",
-"terms_conditions":"الشروط والأحكام"
+"terms_conditions":"الشروط والأحكام",
+"no_notifications":"لا يوجد اشعارات",
+"update_order_status":"تم تحديث حالة الطلب"
+
+
 
 
 

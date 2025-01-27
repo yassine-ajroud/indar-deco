@@ -46,7 +46,7 @@ class FavouriteItem extends StatelessWidget {
                           children: [
                             SlidableAction(
                                 borderRadius: BorderRadius.circular(15),
-                                backgroundColor: AppColors.primary,
+                                backgroundColor: AppColors.red,
                                 icon: Icons.delete,
                                 label: AppLocalizations.of(context)!.delete,
                                 onPressed: (context) async {

@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:indar_deco/core/styles/colors.dart';
-import 'package:indar_deco/core/styles/text_styles.dart';
 import 'package:indar_deco/presentation/controllers/authentication_controller.dart';
 import 'package:indar_deco/presentation/controllers/cart_controller.dart';
 import 'package:indar_deco/presentation/controllers/category_controller.dart';
 import 'package:indar_deco/presentation/controllers/main_screen_controller.dart';
+import 'package:indar_deco/presentation/controllers/notifications_controller.dart';
 import 'package:indar_deco/presentation/controllers/product_controller.dart';
 import 'package:indar_deco/presentation/controllers/promotion_controller.dart';
 import 'package:indar_deco/presentation/controllers/settings_controller.dart';
@@ -39,6 +38,7 @@ class SplashScreen extends StatefulWidget {
     final AuthenticationController authController = Get.find();
     final WishListController wishListController = Get.find();
     final CartController cartController = Get.find();
+
     final lang = await settingsController.loadLocale();
     settingsController.setLocal(lang);
     bool res = true;
@@ -55,14 +55,10 @@ class SplashScreen extends StatefulWidget {
         authController.currentUser = r;
        await wishListController.getUserWishlist(authController.currentUser.id!);
         await cartController.getUserCart(authController.currentUser.id!);
-        
-
-
-
+        Get.put(NotificationsController());
       });
    
     });
-
     Future.delayed( Duration(seconds: duration), () {
 
 

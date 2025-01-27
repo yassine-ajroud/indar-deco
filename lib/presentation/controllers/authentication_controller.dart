@@ -26,13 +26,11 @@ import 'package:indar_deco/domain/usecases/authentication_usecases/verify_otp_us
 import 'package:indar_deco/domain/usecases/cart_usecases/create_cart_usecase.dart';
 import 'package:indar_deco/domain/usecases/wishlist_usecases/create_wishlist_usecase.dart';
 import 'package:indar_deco/presentation/controllers/cart_controller.dart';
-import 'package:indar_deco/presentation/controllers/category_controller.dart';
 import 'package:indar_deco/presentation/controllers/wishlist_controller.dart';
 import 'package:indar_deco/presentation/ui/screens/authentication/otp_screen.dart';
 import 'package:indar_deco/presentation/ui/screens/authentication/reset_password_screen.dart';
 import 'package:indar_deco/presentation/ui/screens/authentication/sign_in_screen.dart';
 import 'package:indar_deco/presentation/ui/screens/main/main_screen.dart';
-import 'package:indar_deco/presentation/ui/widgets/category/category_item.dart';
 import '../../di.dart';
 import '../../domain/entities/token.dart';
 import '../../domain/usecases/authentication_usecases/clear_user_image.dart';
@@ -371,4 +369,5 @@ Future<String?> getRecoveryEmail(String email)async{
   res.fold((l) => null, (r) =>result=r );
   return result;
 }
+
 }
