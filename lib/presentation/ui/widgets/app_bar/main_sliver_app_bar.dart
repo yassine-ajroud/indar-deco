@@ -78,7 +78,7 @@ class MainSliverAppBar extends StatelessWidget {
                           backgroundColor: AppColors.primary,
                           radius: 7,
                           child: Text(
-                            cartController.currentCart.productsId.length.toString(),
+                            cartController.currentCart.productsId.length.toString()??'',
                             style: AppTextStyle.cartBadgeTextTextStyle,
                           ),
                         );

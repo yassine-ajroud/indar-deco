@@ -82,9 +82,12 @@ Future<TokenModel>get token async {
           },
         ),);
       dynamic data = response.data;
+            print("rating error res ${data.toString()}");
+
       ProductRatingModel ratings =ProductRatingModel.fromJson(data);
       return ratings;
     } catch (e) {
+      print("rating error ${e.toString()}");
       throw ServerException();
     }
   }
